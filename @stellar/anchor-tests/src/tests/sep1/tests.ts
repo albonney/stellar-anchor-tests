@@ -21,7 +21,7 @@ export const tomlExists: Test = {
       text: (args: any) => {
         return (
           `A connection failure occured when making a request to: ` +
-          `\n\n${args.url}\n\n` +
+          `\n\n${args.homeDomain}\n\n` +
           `Make sure that CORS is enabled.`
         );
       },

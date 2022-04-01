@@ -427,6 +427,7 @@ const returnsValidChallengeResponse: Test = {
   async run(config: Config): Promise<Result> {
     const result: Result = { networkCalls: [] };
     const clientKeypair = Keypair.random();
+    await friendBot(clientKeypair.publicKey(), result);
     const getAuthCall: NetworkCall = {
       request: new Request(
         this.context.expects.webAuthEndpoint +
@@ -728,6 +729,7 @@ export const returnsValidJwt: Test = {
   async run(_config: Config): Promise<Result> {
     const result: Result = { networkCalls: [] };
     this.context.provides.clientKeypair = Keypair.random();
+    await friendBot(this.context.provides.clientKeypair.publicKey(), result);
     this.context.provides.token = await postChallenge(
       this.context.provides.clientKeypair,
       this.context.expects.webAuthEndpoint,
@@ -755,6 +757,7 @@ const acceptsJson: Test = {
   async run(_config: Config): Promise<Result> {
     const result: Result = { networkCalls: [] };
     const clientKeypair = Keypair.random();
+    await friendBot(clientKeypair.publicKey(), result);
     await postChallenge(
       clientKeypair,
       this.context.expects.webAuthEndpoint,

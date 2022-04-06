@@ -120,10 +120,15 @@ let args = command.argv;
   }
   const startTime = Date.now();
   const testRuns: TestRun[] = [];
+  let testsSucceeded = true;
   try {
     for await (const testRun of run(config)) {
       testRuns.push(testRun);
       await printTestRun(testRun, config.verbose as boolean);
+
+      if (testsSucceeded && testRun.result.failure) {
+        testsSucceeded = false;
+      }
     }
   } catch (e) {
     yargs.showHelp();
@@ -134,4 +139,8 @@ let args = command.argv;
   const endTime = Date.now();
   console.log(); // add new line between results and stats
   printStats(getStats(testRuns), startTime, endTime);
+
+  if (!testsSucceeded) {
+    process.exit(1);
+  }
 })();
